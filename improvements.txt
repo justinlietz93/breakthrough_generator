@@ -1,0 +1,114 @@
+Below is a meta-extension of your Breakthrough-Idea Walkthrough (the 9-step or so framework) that adds sub-steps or mini-prompts to each step. These sub-steps let you (or your orchestration script) push the LLM to break down the brainstorming even further, eventually creating actionable tasks for you to implement.
+
+Use this extended version if you want the LLM to produce not just the high-level text at each step but also a set of “action items” or finer sub-steps for each phase.
+
+Extended Breakthrough Framework (With Sub-Steps)
+Below is the recommended structure in 9 main steps (you can tailor the number), each with sub-prompts or mini-requests to produce deeper breakdowns. This approach is flexible—you control how many sub-levels or tasks you want the LLM to output.
+
+Step 1) Context & Constraints
+Goal: Summarize domain or problem constraints and gather obscure references from the LLM.
+Extended Approach:
+Sub-Step A: Summarize domain context.
+Sub-Step B: Identify unusual references or cross-domain knowledge.
+Sub-Step C: Provide an “initial short list of 3–5 potential synergy angles” that might lead to breakthroughs.
+Prompts:
+
+System Prompt: “You are a specialized consultant. In Step 1A, do [X]... in Step 1B, do [Y]... in Step 1C, etc.”
+User Prompt: “Step 1: Summarize constraints, gather lesser-known references, produce synergy angles. No disclaimers.”
+Result:
+
+The LLM gives a short “context doc,” plus a list of synergy angles.
+Each synergy angle can feed into Step 2.
+Step 2) Divergent Brainstorm of Solutions
+Goal: Generate multiple novel solutions.
+Extended Approach:
+Sub-Step A: For each synergy angle from Step 1C, produce at least 2 distinct solution sketches → total 6–10.
+Sub-Step B: Rate each solution on originality, feasibility, potential impact, but avoid disclaimers.
+Sub-Step C: Convert the top 3 solutions into a more detailed outline.
+Prompts:
+
+“Step 2: For each synergy angle, produce multiple solutions. Then do sub-step B to rate them. Then sub-step C to pick top solutions.”
+Result:
+
+LLM outputs a bigger set of potential solutions.
+The top 3 are chosen for deeper analysis in Step 3.
+Step 3) Deep-Dive on Chosen Solutions
+Goal: Thorough analysis of each selected solution.
+Extended Approach:
+Sub-Step A: For each chosen solution, do a 1–2 page deep-dive (theory, domain synergy, example scenario).
+Sub-Step B: Propose key resources or advanced references needed.
+Sub-Step C: List 3–5 action items for each solution if one wanted to prototype it.
+Prompts:
+
+“Step 3: For each top solution from Step 2, produce a thorough analysis (sub-step A), required references (sub-step B), and 3–5 actionable tasks (sub-step C).”
+Result:
+
+The LLM’s output is not just a deep concept explanation but also short, practical tasks to begin implementing or testing each solution.
+Step 4) Self-Critique & Merge
+Goal: LLM self-critique or unify the best aspects from the 3 solutions.
+Extended Approach:
+Sub-Step A: Evaluate each solution’s limitations or synergy.
+Sub-Step B: Propose 2 merged approaches.
+Sub-Step C: For each merged approach, produce a short “Implementation Rationale.”
+Prompts:
+
+“Step 4: Critique each solution (no disclaimers about feasibility, just improvements). Then produce 2 merged solutions, each with rationale for how they unify the best aspects.”
+Result:
+
+The LLM effectively merges ideas and justifies how the synergy might form a real “breakthrough approach.”
+Step 5) Final “Breakthrough Blueprint”
+Goal: Solidify the final solution as a single blueprint.
+Extended Approach:
+Sub-Step A: Summarize it in 3–5 paragraphs.
+Sub-Step B: Provide a bullet list of 10 actionable steps to realize it.
+Sub-Step C: (Optional) Provide an ASCII or block diagram.
+Prompts:
+
+“Step 5: Combine everything into one blueprint. Sub-step A: summary. Sub-step B: 10 actionable tasks. Sub-step C: diagram.”
+Result:
+
+A fully integrated doc with a short list of next steps to get started.
+Step 6) Implementation & Risk Minimization Plan
+Goal: Create a more detailed plan addressing risk, resource constraints, time estimates.
+Extended Approach:
+Sub-Step A: Provide a timeline (like 3–6 months).
+Sub-Step B: Outline potential roadblocks, but keep solutions.
+Sub-Step C: Summarize each milestone’s success criteria.
+Prompts:
+
+“Step 6: Implementation plan with sub-step A for timeline, sub-step B for roadblocks + solutions, sub-step C for success metrics. Keep it real, no disclaimers.”
+Result:
+
+You get a more “project manager” style breakdown with each phase spelled out.
+Step 7) Cross-Check with Known Projects
+Goal: The LLM tries to see if anything in open-source or known references is close.
+Extended Approach:
+Sub-Step A: List existing open-source or research efforts that share partial elements.
+Sub-Step B: Distill the unique points that go beyond those references.
+Sub-Step C: Summarize why this blueprint remains fresh or unique.
+Prompts:
+
+“Step 7: Cross-check the blueprint with any known project. Sub-step B: highlight novelty. Sub-step C: finalize unique selling points.”
+Step 8) Additional Q&A or Clarifications
+Goal: Let you finalize the approach with any follow-up questions.
+Extended Approach:
+Sub-Step A: You ask your final clarifications or expansions.
+Sub-Step B: LLM elaborates them.
+Sub-Step C: Possibly produce any code stubs or mini specs if you want.
+Prompts:
+
+“Step 8: Let me finalize queries. Sub-step A: I ask. Sub-step B: you answer. Sub-step C: produce code stubs (if relevant). No disclaimers.”
+Result:
+
+You get any final expansions, concluding the “Breakthrough” process.
+How to Use
+In your code: replicate your multi-step orchestration approach. For each step (1–8), you feed a System Prompt and a User Prompt with the sub-step instructions you desire.
+Enforce the “No disclaimers about feasibility” policy in each step’s system prompt.
+Include references to new or unusual fields in each step’s prompt if you suspect it might spark additional creativity.
+Conclusion:
+This extended framework ensures that at each step, the LLM:
+
+Breaks down the topic further,
+Produces a set of actionable items or mini tasks (sub-step C in each phase),
+Maintains a creative synergy that yields truly breakthrough-level solutions.
+That’s how you can systematically push the LLM to produce both novel ideas and practical steps to realize them.

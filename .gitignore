@@ -2,3 +2,6 @@ docs/
 .env
 .cursorrules
 .venv
+ideas/*
+some_project/*
+improvments.txt
