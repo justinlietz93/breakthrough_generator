@@ -6,7 +6,18 @@ This project implements an AI orchestrator system designed to walk an LLM (Large
 
 The "Breakthrough-Idea Walkthrough" Framework is an eight-stage structure that guides an LLM through a sequence of prompts, each designed to build upon previous outputs. The framework progressively develops a novel idea from initial domain understanding to a complete, actionable blueprint.
 
+## Modules
+
+This project consists of two main modules:
+
+1. **Orchestrator (`orchestrator.py`)**: The main module that walks an LLM through the 8-stage framework to generate breakthrough ideas
+2. **Proposal Generator**: Modules that convert the generated ideas into a formal academic research proposal:
+   - `ai_proposal_generator.py`: Uses API calls to Claude or DeepSeek to generate the proposal
+   - `cursor_proposal_generator.py`: Creates a prompt for use with Cursor's built-in Claude (no API key required)
+
 ## How to Use
+
+### Stage 1: Generate Breakthrough Ideas with the Orchestrator
 
 1. Run the orchestrator script with your preferred LLM:
    ```
@@ -33,6 +44,45 @@ The "Breakthrough-Idea Walkthrough" Framework is an eight-stage structure that g
 4. After each step, review the AI's output and choose whether to apply the changes (which saves files to the `some_project/doc/` directory) - unless auto-yes is enabled, in which case changes are automatically applied
 
 5. At the end, you'll have a complete breakthrough blueprint in the `some_project/doc/` directory
+
+### Stage 2: Generate a Formal Research Proposal
+
+After completing the orchestrator process, you can use one of the proposal generator modules to convert your breakthrough idea into a formal academic research proposal:
+
+#### Option 1: Using API-based Proposal Generator
+
+If you have valid API keys for Claude or DeepSeek:
+
+```
+python ai_proposal_generator.py --model <claude|deepseek>
+```
+
+This will:
+1. Read all files from the `some_project/doc/` directory
+2. Prepare a comprehensive prompt
+3. Call the selected AI model's API
+4. Save the generated research proposal to `some_project/ai_research_proposal.md`
+
+#### Option 2: Using Cursor's Built-in Claude (No API Key Required)
+
+If you don't have API keys or prefer to use Cursor's built-in Claude:
+
+```
+python cursor_proposal_generator.py
+```
+
+This will:
+1. Read all files from the `some_project/doc/` directory
+2. Prepare a comprehensive prompt
+3. Save the prompt to `some_project/cursor_prompt.md`
+4. Provide instructions for using the prompt with Cursor's built-in Claude
+
+After running this script:
+1. Open the prompt file: `cursor_prompt.md`
+2. Copy its contents
+3. Create a new chat with Claude in Cursor
+4. Paste the prompt and let Claude generate your research proposal
+5. Copy Claude's response and save it as your research proposal
 
 ## The 8-Stage Framework
 
@@ -62,12 +112,24 @@ Allows for follow-up questions and clarifications about any aspect of the final 
 
 ## Output Files
 
+### Orchestrator Output Files
 The process creates several files in the `some_project/doc/` directory:
 
+- `CONTEXT_CONSTRAINTS.md` - Initial domain understanding and constraints
+- `DIVERGENT_SOLUTIONS.md` - Multiple distinct solution approaches
+- `DEEP_DIVE_MECHANISMS.md` - Detailed exploration of each solution
+- `SELF_CRITIQUE_SYNERGY.md` - Critical analysis and combination opportunities
 - `BREAKTHROUGH_BLUEPRINT.md` - The final merged breakthrough idea design
 - `IMPLEMENTATION_PATH.md` - Step-by-step implementation plan
 - `NOVELTY_CHECK.md` - Analysis of the idea's novelty compared to existing solutions
 - `ELABORATIONS.md` - Responses to follow-up questions and additional details
+
+### Proposal Generator Output Files
+Depending on which proposal generator you use:
+
+- `ai_prompt.txt` - The prompt sent to the AI model (both generators)
+- `cursor_prompt.md` - The prompt for use with Cursor's Claude (from cursor_proposal_generator.py)
+- `ai_research_proposal.md` - The formal academic research proposal (from ai_proposal_generator.py)
 
 ## Environment Setup
 
@@ -76,6 +138,8 @@ The system requires API keys for the LLM service you choose:
 - For Claude 3.7 Sonnet: Set the `ANTHROPIC_API_KEY` environment variable
 - For DeepSeek R1: Set the `DEEPSEEK_API_KEY` environment variable
 
+API keys can be set in a `.env` file in the project root directory, which will be automatically loaded.
+
 ## Key Features
 
 1. **Structured Ideation**: Follows a carefully designed process that builds on each prior step
@@ -83,11 +147,12 @@ The system requires API keys for the LLM service you choose:
 3. **No Disclaimers**: The system instructs the LLM to avoid feasibility disclaimers and focus on solutions
 4. **Actionable Output**: The final blueprint includes a practical implementation path
 5. **Progressive Refinement**: Each step improves and builds upon previous ideas
+6. **Formal Research Proposal**: Converts breakthrough ideas into a structured academic document
 
 ## Technical Requirements
 
 - Python 3.6+
-- Required packages: `anthropic`, `openai` (see requirements.txt)
+- Required packages: `anthropic`, `openai`, `python-dotenv` (see requirements.txt)
 
 ## Cross-Platform Compatibility
 
@@ -97,6 +162,27 @@ This tool works on both Windows and Linux/macOS systems:
 - **Linux/macOS**: Standard path handling with forward slashes.
 
 The system uses Python's `pathlib` for platform-independent path handling, ensuring compatibility across different operating systems.
+
+## Complete Workflow Example
+
+1. Generate breakthrough ideas for improving education:
+   ```
+   python orchestrator.py claude37sonnet "Improving personalized education through AI"
+   ```
+
+2. Follow the 8-stage process, reviewing and approving outputs at each stage
+
+3. Generate a formal research proposal:
+   ```
+   python ai_proposal_generator.py --model claude
+   ```
+   
+   Or if you don't have API keys:
+   ```
+   python cursor_proposal_generator.py
+   ```
+
+4. The final result is a comprehensive research proposal based on your breakthrough idea, ready for academic or funding submission.
 
 ## Example
 
