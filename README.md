@@ -1,5 +1,7 @@
 # Breakthrough-Idea Walkthrough Framework
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ca935ebb5d7d411392ff4f8b55ebf18d)](https://app.codacy.com/gh/justinlietz93/breakthrough_generator?utm_source=github.com&utm_medium=referral&utm_content=justinlietz93/breakthrough_generator&utm_campaign=Badge_Grade)
+
 This project implements an AI orchestrator system designed to walk an LLM (Large Language Model) through a structured process for generating breakthrough ideas. The system uses a carefully designed 8-stage framework that maximizes novelty while producing actionable and implementable ideas.
 
 ## Overview
