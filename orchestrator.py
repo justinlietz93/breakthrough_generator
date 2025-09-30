@@ -32,6 +32,25 @@ except ImportError:
     print("python-dotenv not installed. Environment variables must be set manually.")
 
 from ai_clients import AIOrchestrator
+from prompts import (
+    CLARIFICATION_QA_SYSTEM_PROMPT,
+    STEP_1_SYSTEM_PROMPT,
+    STEP_1_USER_PROMPT_TEMPLATE,
+    STEP_2_SYSTEM_PROMPT,
+    STEP_2_USER_PROMPT_TEMPLATE,
+    STEP_3_SYSTEM_PROMPT,
+    STEP_3_USER_PROMPT_TEMPLATE,
+    STEP_4_SYSTEM_PROMPT,
+    STEP_4_USER_PROMPT_TEMPLATE,
+    STEP_5_SYSTEM_PROMPT,
+    STEP_5_USER_PROMPT_TEMPLATE,
+    STEP_6_SYSTEM_PROMPT,
+    STEP_6_USER_PROMPT_TEMPLATE,
+    STEP_7_SYSTEM_PROMPT,
+    STEP_7_USER_PROMPT_TEMPLATE,
+    STEP_8_SYSTEM_PROMPT,
+    STEP_8_USER_PROMPT_TEMPLATE,
+)
 
 class ProjectFile:
     def __init__(self, path: str, content: str):
@@ -204,10 +223,7 @@ def main():
         conversation = [
             {
                 "role": "system",
-                "content": (
-                    "You are a helpful AI that clarifies the user's domain or challenge. "
-                    "Ask short follow-up questions to fully understand the user's needs."
-                )
+                "content": CLARIFICATION_QA_SYSTEM_PROMPT,
             },
             {"role": "user", "content": user_vision},
         ]
@@ -266,135 +282,43 @@ def main():
     STEPS = [
         {
             "phase_name": "1) Context & Constraints Clarification",
-            "system_prompt": (
-                "You are a specialized solutions architect. The user will describe a domain or challenge.\n"
-                "Step 1: Summarize the user's domain, goals, and constraints thoroughly. Then, confirm your understanding of them.\n"
-                "Additionally, collect any unusual references or lesser-known methods you can recall that might apply.\n"
-                "DO NOT disclaim feasibility. Provide a crisp summary of what the user wants, plus a short list of unique references from outside the mainstream."
-            ),
-            "user_prompt_template": (
-                "Step 1: Summarize my domain/goal and constraints. Also gather some obscure or cross-domain references that could help.\n"
-                "Keep it real and near-future, but do not disclaim feasibility. We want fresh synergy ideas.\n\n"
-                "Domain/Challenge:\n{vision}\n"
-            ),
+            "system_prompt": STEP_1_SYSTEM_PROMPT,
+            "user_prompt_template": STEP_1_USER_PROMPT_TEMPLATE,
         },
         {
             "phase_name": "2) Divergent Brainstorm of Solutions",
-            "system_prompt": (
-                "Step 2: Provide multiple new or radical solutions that incorporate the domain constraints and your cross-domain references.\n\n"
-                "Generate at least 5 distinct solutions.\n"
-                "Each solution must be novel, mixing known ideas in uncommon ways.\n"
-                "Avoid disclaimers like 'I'm only an AI' or 'This might not be feasible.' The user wants plausible near-future expansions.\n"
-                "Label them \"Solution A, B, C, etc.\""
-            ),
-            "user_prompt_template": (
-                "Step 2: Show me 5 or more novel synergy solutions for my stated domain.\n"
-                "Don't disclaim feasibility. Just produce creative combos.\n"
-                "Title each solution briefly, then describe it in a paragraph or two.\n\n"
-                "Domain/Challenge:\n{vision}\n\n"
-                "Context & Constraints (Step 1 Output):\n{step1}\n"
-            ),
+            "system_prompt": STEP_2_SYSTEM_PROMPT,
+            "user_prompt_template": STEP_2_USER_PROMPT_TEMPLATE,
         },
         {
             "phase_name": "3) Deep-Dive on Each Idea's Mechanism",
-            "system_prompt": (
-                "Step 3: For each proposed solution, deep-dive into how it might work. This includes:\n\n"
-                "Underlying logic or theoretical basis.\n"
-                "Potential synergy with domain constraints.\n"
-                "A short example scenario or test application.\n"
-                "A rough list of pros/cons.\n"
-                "No disclaimers or feasibility disclaimers—remain solution-focused."
-            ),
-            "user_prompt_template": (
-                "Step 3: For each solution A, B, C... do a deep-dive.\n"
-                "Show how it might actually function, how it ties back to the domain constraints, what example scenario it solves.\n"
-                "Keep the focus on actionable or near-future expansions—no disclaimers.\n\n"
-                "Domain/Challenge:\n{vision}\n\n"
-                "Context & Constraints (Step 1 Output):\n{step1}\n\n"
-                "Proposed Solutions (Step 2 Output):\n{step2}\n"
-            ),
+            "system_prompt": STEP_3_SYSTEM_PROMPT,
+            "user_prompt_template": STEP_3_USER_PROMPT_TEMPLATE,
         },
         {
             "phase_name": "4) Self-Critique for Gaps & Synergy",
-            "system_prompt": (
-                "Step 4: Critically review each solution for missing details, potential synergy across solutions, or expansions.\n\n"
-                "Identify any incomplete sub-points.\n"
-                "Suggest expansions or merges that might create an even stronger approach.\n"
-                "No disclaimers about the entire project's feasibility—just refine or unify solutions."
-            ),
-            "user_prompt_template": (
-                "Step 4: Critique your solutions from Step 3. Note where each is lacking detail, or which synergy merges solutions effectively.\n"
-                "Then propose 1–2 merged solutions that might be even stronger.\n\n"
-                "Domain/Challenge:\n{vision}\n\n"
-                "Context & Constraints (Step 1 Output):\n{step1}\n\n"
-                "Deep-Dive Solutions (Step 3 Output):\n{step3}\n"
-            ),
+            "system_prompt": STEP_4_SYSTEM_PROMPT,
+            "user_prompt_template": STEP_4_USER_PROMPT_TEMPLATE,
         },
         {
             "phase_name": "5) Merged Breakthrough Blueprint",
-            "system_prompt": (
-                "Step 5: Provide a final 'Merged Breakthrough Blueprint.' This blueprint is a synergy of the best or boldest features from the prior solutions, shaped into a coherent design.\n\n"
-                "Summarize the blueprint in 3–5 paragraphs, focusing on how it pushes beyond standard practice.\n"
-                "Emphasize real near-future expansions, not disclaimers.\n"
-                "Output the blueprint in `=== File: doc/BREAKTHROUGH_BLUEPRINT.md ===`"
-            ),
-            "user_prompt_template": (
-                "Step 5: Merge your best solutions into one cohesive blueprint.\n"
-                "Aim for truly new synergy beyond typical references.\n"
-                "Provide enough detail so I can see how it might be genuinely game-changing.\n"
-                "Place the blueprint in `=== File: doc/BREAKTHROUGH_BLUEPRINT.md ===`\n\n"
-                "Domain/Challenge:\n{vision}\n\n"
-                "Context & Constraints (Step 1 Output):\n{step1}\n\n"
-                "Critique & Synergy (Step 4 Output):\n{step4}\n"
-            ),
+            "system_prompt": STEP_5_SYSTEM_PROMPT,
+            "user_prompt_template": STEP_5_USER_PROMPT_TEMPLATE,
         },
         {
             "phase_name": "6) Implementation Path & Risk Minimization",
-            "system_prompt": (
-                "Step 6: Lay out an implementation or prototyping path. For each step, identify key resources needed.\n"
-                "No disclaimers about overall feasibility—just ways to mitigate risk or handle challenges.\n"
-                "Output the implementation path in `=== File: doc/IMPLEMENTATION_PATH.md ===`"
-            ),
-            "user_prompt_template": (
-                "Step 6: Give me a development path. List each milestone or partial prototype.\n"
-                "Show how I'd start small, prove key parts of the blueprint, then expand. No disclaimers needed; just solution-oriented steps.\n"
-                "Place the implementation path in `=== File: doc/IMPLEMENTATION_PATH.md ===`\n\n"
-                "Domain/Challenge:\n{vision}\n\n"
-                "Breakthrough Blueprint (Step 5 Output):\n{step5}\n"
-            ),
+            "system_prompt": STEP_6_SYSTEM_PROMPT,
+            "user_prompt_template": STEP_6_USER_PROMPT_TEMPLATE,
         },
         {
             "phase_name": "7) Cross-Checking with Prior Knowledge",
-            "system_prompt": (
-                "Step 7: Attempt to cross-check if any known open-source or industrial projects come close to your blueprint, and highlight differences.\n\n"
-                "If no direct references exist, you can say it's presumably novel.\n"
-                "Avoid disclaimers; remain solution-based.\n"
-                "Output the cross-check in `=== File: doc/NOVELTY_CHECK.md ===`"
-            ),
-            "user_prompt_template": (
-                "Step 7: Compare your blueprint with existing known projects. Are there partial overlaps? If so, how is this blueprint more advanced or new?\n"
-                "If none are close, then we label it as presumably novel. No disclaimers beyond that.\n"
-                "Place the cross-check in `=== File: doc/NOVELTY_CHECK.md ===`\n\n"
-                "Domain/Challenge:\n{vision}\n\n"
-                "Breakthrough Blueprint (Step 5 Output):\n{step5}\n\n"
-                "Implementation Path (Step 6 Output):\n{step6}\n"
-            ),
+            "system_prompt": STEP_7_SYSTEM_PROMPT,
+            "user_prompt_template": STEP_7_USER_PROMPT_TEMPLATE,
         },
         {
             "phase_name": "8) Q&A or Additional Elaborations",
-            "system_prompt": (
-                "Step 8: The user may have specific follow-up questions. Provide direct expansions or clarifications, always focusing on near-future feasibility. Refrain from disclaimers. Always produce constructive expansions.\n"
-                "Output any elaborations in `=== File: doc/ELABORATIONS.md ===`"
-            ),
-            "user_prompt_template": (
-                "Step 8: Let me ask any final clarifications about your final blueprint. Please keep it real near-future, no disclaimers.\n"
-                "Place any elaborations in `=== File: doc/ELABORATIONS.md ===`\n\n"
-                "Domain/Challenge:\n{vision}\n\n"
-                "Breakthrough Blueprint (Step 5 Output):\n{step5}\n\n"
-                "Implementation Path (Step 6 Output):\n{step6}\n\n"
-                "Novelty Check (Step 7 Output):\n{step7}\n\n"
-                "Let me know what aspects you'd like me to elaborate on or explain further."
-            ),
+            "system_prompt": STEP_8_SYSTEM_PROMPT,
+            "user_prompt_template": STEP_8_USER_PROMPT_TEMPLATE,
         },
     ]
 

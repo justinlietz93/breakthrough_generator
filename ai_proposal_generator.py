@@ -24,6 +24,10 @@ except ImportError:
 
 # Import the existing AI clients correctly
 from ai_clients import Claude37SonnetClient, DeepseekR1Client
+from prompts import (
+    RESEARCH_PROPOSAL_PROMPT_FOOTER,
+    RESEARCH_PROPOSAL_PROMPT_HEADER,
+)
 
 # Define the file order for processing
 FILE_ORDER = [
@@ -59,27 +63,9 @@ def get_project_title(doc_folder: Path) -> str:
 
 def prepare_prompt(file_contents: Dict[str, str], project_title: str) -> str:
     """Prepare the prompt for the AI model."""
-    prompt = f"""
-Create a formal academic research proposal for a project titled "{project_title}".
+    prompt = RESEARCH_PROPOSAL_PROMPT_HEADER.format(project_title=project_title)
+    prompt += "\n"
 
-Use the following content from previous design documents to create a comprehensive, well-structured academic research proposal. Format it according to standard academic conventions with proper sections, citations, and academic tone.
-
-The research proposal should include:
-1. Title Page
-2. Abstract
-3. Introduction and Problem Statement
-4. Literature Review
-5. Research Questions and Objectives
-6. Methodology and Technical Approach
-7. Implementation Plan and Timeline
-8. Expected Results and Impact
-9. Conclusion
-10. References
-
-Below are the source documents to synthesize into the proposal:
-
-"""
-    
     # Add each file's content to the prompt
     for file_name in FILE_ORDER:
         if file_name in file_contents:
@@ -88,12 +74,7 @@ Below are the source documents to synthesize into the proposal:
             prompt += file_contents[file_name]
             prompt += "\n\n"
 
-    prompt += """
-Create a cohesive, professionally formatted academic research proposal that integrates these materials. 
-Use formal academic language and structure. Ensure proper citation of external works where appropriate.
-Focus on presenting this as a serious, innovative research initiative with clear methodology and expected outcomes.
-The proposal should be comprehensive enough for submission to a major research funding organization.
-"""
+    prompt += RESEARCH_PROPOSAL_PROMPT_FOOTER
 
     return prompt
 
